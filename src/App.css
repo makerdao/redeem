@@ -11,3 +11,9 @@ body {
 .card {
   color: #333;
 }
+
+footer {
+  padding-top: 10px;
+  background-color: #ddd;
+  color: #333;
+}
