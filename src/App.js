@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Web3 from 'web3';
+import Faq from './Faq';
+import web3, { initWeb3 } from './web3';
 import BigNumber from 'bignumber.js'
 
 const dstoken_abi = require('./abi/dstoken.json');
@@ -19,21 +20,16 @@ class App extends Component {
     oldMkrAllowance: new BigNumber(0)
   }
 
-  web3 = null;
-
   old_mkr_address = '0x4bb514a7f83fbb13c2b41448208e89fabbcfe2fb';
-  mkr_address = '0x5c5aff584a08e21f3fd0c9b1dfb77058445fcbf7';
-  redeemer_address = '0x334c2087fb2172ef59cc05c52092580c6a8ba629';
+  mkr_address = '0x4572baca0e43504234f86380fcdd38fbf81c7888';
+  redeemer_address = '0x2c0f31271673cc29927be725104642aad65a253e';
 
   old_mkr = null;
   redeemer = null;
 
   componentWillMount() {
     setTimeout(() => {
-      const web3 = new Web3();
-      web3.setProvider(window.web3.currentProvider || null);
-      window.web3 = web3;
-      this.web3 = web3;
+      initWeb3(web3);
       web3.version.getNetwork((error, network) => {
         if (network !== "42") {
           // Only works in kovan
@@ -60,6 +56,8 @@ class App extends Component {
                 account: x[0]
               });
               this.getDeadline();
+              old_mkr.allEvents({fromBlock:'latest'}, console.log)
+              mkr.allEvents({fromBlock:'latest'}, console.log)
               this.checkAll();
               setInterval(this.checkAll, 5000);
             } else {
@@ -170,11 +168,11 @@ class App extends Component {
               Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
             </p>
             <p>
-              The new and hopefully final version of the MKR token will be a <kbd>DSToken</kbd> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <kbd>DSToken</kbd> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
+              The new version of the MKR token will be a <kbd>DSToken</kbd> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <kbd>DSToken</kbd> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
             </p>
             {this.state.deadline &&
               <p>
-                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after {new Date(this.web3.toDecimal(this.state.deadline) * 1000).toString()}.
+                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
               </p>
             }
             {this.state.account &&
@@ -192,7 +190,7 @@ class App extends Component {
                     Your balance:
                   </p>
                   <p className="h1">
-                    {this.web3 && this.web3.fromWei(this.state.oldMkrBalance).toString()}
+                    {web3 && web3.fromWei(this.state.oldMkrBalance).toString()}
                   </p>
                   {this.state.oldMkrBalance.gt(0) &&
                     !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
@@ -209,7 +207,7 @@ class App extends Component {
                     <form onSubmit={this.redeem}>
                       <h4>Step 2</h4>
                       <button type="input" className="btn btn-primary">
-                        Redeem {this.web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
+                        Redeem {web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
                       </button>
                       <p>
                         This transaction will remove your old MKR balance and replace it with new MKR tokens.
@@ -228,11 +226,11 @@ class App extends Component {
                     Your balance:
                   </p>
                   <p className="h1">
-                    {this.web3 && this.web3.fromWei(this.state.mkrBalance).toString()}
+                    {web3 && web3.fromWei(this.state.mkrBalance).toString()}
                   </p>
                   {this.state.mkrBalance.gt(0) &&
                     !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
-                    this.web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
+                    web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
                     <form onSubmit={this.approve_undo}>
                       <button type="input" className="btn btn-primary">Approve Undo</button>
                     </form>
@@ -250,33 +248,7 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12">
-            <br />
-            <h2 className="text-center h1">
-              FAQ
-            </h2>
-            <h5>
-              Why are you doing this?
-            </h5>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
-            </p>
-            <h5>
-              What will happen to the old MKR tokens?
-            </h5>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
-            </p>
-            <h5>
-              Can I see the source code?
-            </h5>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
-            </p>
-
-          </div>
-        </div>
+        <Faq />
       </div>
     );
   }

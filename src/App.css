@@ -1,3 +1,13 @@
 body {
-  font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  color: #fff;
+  background: radial-gradient(#213654,#242729);
+}
+
+.h1, h1, h5 {
+  color: #ff9800;
+}
+
+.card {
+  color: #333;
 }
