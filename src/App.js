@@ -155,19 +155,25 @@ class App extends Component {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <h1>Redeem New MKR</h1>
+            <h1 className="text-center">
+              Redeem New MKR
+            </h1>
             <p>
-              Your account: <strong>{this.state.account}</strong>
+              Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
             </p>
             <p>
-              MKR is replacing its token with a new one because reasons. Please use this page to exchange your old MKR tokens with new ones.
+              The new and hopefully final version of the MKR token will be a <kbd>DSToken</kbd> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <kbd>DSToken</kbd> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
             </p>
-            <p>
-              More reassuring info here...
-            </p>
-            <p>
-              {this.state.deadline && `You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after ${new Date(this.web3.toDecimal(this.state.deadline) * 1000).toString()}.`}
-            </p>
+            {this.state.deadline &&
+              <p>
+                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after {new Date(this.web3.toDecimal(this.state.deadline) * 1000).toString()}.
+              </p>
+            }
+            {this.state.account &&
+              <p>
+                Your account: <strong>{this.state.account}</strong>
+              </p>
+            }
           </div>
           <div className="col-md-12">
             <div className="card-deck">
@@ -243,23 +249,24 @@ class App extends Component {
               FAQ
             </h2>
             <h5>
-              Question 1
+              Why are you doing this?
             </h5>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
             </p>
             <h5>
-              Question 2
+              What will happen to the old MKR tokens?
             </h5>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
             </p>
             <h5>
-              Question 3
+              Can I see the source code?
             </h5>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
             </p>
+
           </div>
         </div>
       </div>
