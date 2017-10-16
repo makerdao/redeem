@@ -52,14 +52,22 @@ class App extends Component {
         this.mkr = mkr;
         this.redeemer = redeemer;
         web3.eth.getAccounts((error, x) => {
-          web3.eth.defaultAccount = x[0];
-          this.setState({
-            network,
-            account: x[0]
-          });
-          this.getDeadline();
-          this.checkAll();
-          setInterval(this.checkAll, 5000);
+          if (!error) {
+            if (x.length > 0) {
+              web3.eth.defaultAccount = x[0];
+              this.setState({
+                network,
+                account: x[0]
+              });
+              this.getDeadline();
+              this.checkAll();
+              setInterval(this.checkAll, 5000);
+            } else {
+              this.setState( {
+                error: 'No account found. Do you need to unlock Metamask?'
+              });
+            }
+          }
         });
       });
     }, 500);
@@ -142,7 +150,7 @@ class App extends Component {
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <h1>Redeem New MKR</h1>
+              <h1 className="text-center">Redeem New MKR</h1>
               <p>
                 {this.state.error}
               </p>
