@@ -15,6 +15,7 @@ class App extends Component {
 
   state = {
     connected: null,
+    account: null,
     error: null,
     network: null,
     deadline: null,
@@ -172,7 +173,7 @@ class App extends Component {
                 Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
               </p>
               <p>
-                The new version of the MKR token will be a <kbd>ds-token</kbd> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <kbd>ds-token</kbd> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
+                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token">ds-token</a> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <a href="https://github.com/dapphub/ds-token">ds-token</a> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
               </p>
               <p>
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
@@ -272,6 +273,7 @@ class App extends Component {
             </div>
           }
           <Faq />
+          <Seth account={this.state.account} redeemer={this.redeemer_address} mkr={this.mkr_address} old_mkr={this.old_mkr_address} />
         </div>
         <Footer />
       </div>
