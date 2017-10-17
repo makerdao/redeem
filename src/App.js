@@ -33,10 +33,16 @@ class App extends Component {
     setTimeout(() => {
       initWeb3(web3);
       web3.version.getNetwork((error, network) => {
+        if (error) {
+          this.setState({
+            error: `You don't seem to be connected to the Ethereum network. Please use Metamask, Parity extension/browser or Mist.`
+          });
+          return;
+        }
         if (network !== "42") {
           // Only works in kovan
           this.setState({
-            error: `Please connect to the kovan network and try again.`
+            error: `This is a test page that currently only works with the Kovan network. Please connect to Kovan and refresh this page.`
           });
           return;
         }
@@ -58,10 +64,10 @@ class App extends Component {
                 account: x[0]
               });
               this.getDeadline();
-              old_mkr.allEvents({ fromBlock: 'latest' }, console.log)
-              mkr.allEvents({ fromBlock: 'latest' }, console.log)
+              old_mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
+              mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
               this.checkAll();
-              setInterval(this.checkAll, 5000);
+              //setInterval(this.checkAll, 5000);
             } else {
               this.setState({
                 error: 'No account found. Do you need to unlock Metamask?'
@@ -80,6 +86,7 @@ class App extends Component {
   }
 
   checkAll = async () => {
+    console.log('check all');
     const mkrBalanceRedeemer = await this.getBalance(this.mkr, this.redeemer.address);
     const mkrBalance = await this.getBalance(this.mkr, this.state.account);
     const oldMkrBalance = await this.getBalance(this.old_mkr, this.state.account);
@@ -159,95 +166,91 @@ class App extends Component {
                 Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
               </p>
               <p>
-                The new version of the MKR token will be a <kbd>DSToken</kbd> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <kbd>DSToken</kbd> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
+                The new version of the MKR token will be a <kbd>ds-token</kbd> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <kbd>ds-token</kbd> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
               </p>
-              {this.state.deadline &&
-                <p>
-                  You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
-                </p>
-              }
-              {this.state.account &&
-                <p>
-                  Your account: <strong>{this.state.account}</strong>
-                </p>
-              }
+              <p>
+                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
+              </p>
               <p>
                 <a href={`https://kovan.etherscan.io/address/${this.redeemer_address}`} target="_blank">Redeemer contract on Etherscan</a>
               </p>
             </div>
-            <div className="col-md-12">
-              {this.state.network &&
-              <div className="card-deck">
-                <div className="card text-center">
-                  <div className="card-body">
-                    <h3 className="card-title">Old MKR</h3>
-                    <p className="card-text">
-                      Your balance:
+          </div>
+          {this.state.network &&
+            <div>
+              <div className="row">
+                <div className="col-md-12">
+                  {this.state.account &&
+                    <p>
+                      Your account: <strong>{this.state.account}</strong>
                     </p>
-                    <p className="h1">
-                      {web3 && web3.fromWei(this.state.oldMkrBalance).toString()}
-                    </p>
-                    {this.state.oldMkrBalance.gt(0) &&
-                      !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
-                      <form onSubmit={this.approve}>
-                        <h4>Step 1</h4>
-                        <button type="input" className="btn btn-primary">Approve</button>
-                        <p>
-                          This transaction will approve the Redeemer to exchange your tokens.
-                        </p>
-                      </form>
-                    }
-                    {this.state.oldMkrAllowance.gt(0) &&
-                      this.state.oldMkrAllowance.eq(this.state.oldMkrBalance) &&
-                      <form onSubmit={this.redeem}>
-                        <h4>Step 2</h4>
-                        <button type="input" className="btn btn-primary">
-                          Redeem {web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
-                        </button>
-                        <p>
-                          This transaction will remove your old MKR balance and replace it with new MKR tokens.
-                        </p>
-                      </form>
-                    }
-                  </div>
-                  {/* <div className="card-footer text-white bg-dark">
-                    <small className="text-muted">Last updated 3 mins ago</small>
-                  </div> */}
+                  }
                 </div>
-                <div className="card text-center">
-                  <div className="card-body">
-                    <h3 className="card-title">MKR</h3>
-                    <p className="card-text">
-                      Your balance:
-                    </p>
-                    <p className="h1">
-                      {web3 && web3.fromWei(this.state.mkrBalance).toString()}
-                    </p>
-                    {this.state.mkrBalance.gt(0) &&
-                      !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
-                      web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
-                      <form onSubmit={this.approve_undo}>
-                        <button type="input" className="btn btn-primary">Approve Undo</button>
-                      </form>
-                    }
-                    {this.state.mkrAllowance.gt(0) &&
-                      <form onSubmit={this.undo}>
-                        <button type="input" className="btn btn-primary">Undo</button>
-                      </form>
-                    }
-                  </div>
-                  {/* <div className="card-footer">
-                    <small className="text-muted">Last updated 3 mins ago</small>
-                  </div> */}
+                <div className="col-md-6 text-center">
+                  <h3>Old MKR</h3>
+                  <p>
+                    Your balance:
+                        </p>
+                  <p className="h1">
+                    {web3 && web3.fromWei(this.state.oldMkrBalance).toString()}
+                  </p>
+                  {this.state.oldMkrBalance.gt(0) &&
+                    !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
+                    <form onSubmit={this.approve}>
+                      <h4>Step 1</h4>
+                      <button type="input" className="btn btn-primary">Approve</button>
+                      <p>
+                        This transaction will approve the Redeemer to exchange your tokens.
+                          </p>
+                    </form>
+                  }
+                  {this.state.oldMkrAllowance.gt(0) &&
+                    this.state.oldMkrAllowance.eq(this.state.oldMkrBalance) &&
+                    <form onSubmit={this.redeem}>
+                      <h4>Step 2</h4>
+                      <button type="input" className="btn btn-primary">
+                        Redeem {web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
+                          </button>
+                      <p>
+                        This transaction will remove your old MKR balance and replace it with new MKR tokens.
+                          </p>
+                    </form>
+                  }
+                </div>
+                <div className="col-md-6 text-center">
+                  <h3>MKR</h3>
+                  <p>
+                    Your balance:
+                  </p>
+                  <p className="h1">
+                    {web3 && web3.fromWei(this.state.mkrBalance).toString()}
+                  </p>
+                  {this.state.mkrBalance.gt(0) &&
+                    !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
+                    web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
+                    <form onSubmit={this.approve_undo}>
+                      <p>
+                        You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
+                      </p>
+                      <button type="input" className="btn btn-primary">Approve Revert</button>
+                    </form>
+                  }
+                  {this.state.mkrAllowance.gt(0) &&
+                    <form onSubmit={this.undo}>
+                      <button type="input" className="btn btn-primary">Undo</button>
+                    </form>
+                  }
                 </div>
               </div>
-              }
-              {this.state.error &&
-                <p>{this.state.error}</p>
-              }
+              <Stats supply={1000000} available={web3.fromWei(this.state.mkrBalanceRedeemer).toString()} />
             </div>
-          </div>
-          <Stats supply={1000000} available={web3.fromWei(this.state.mkrBalanceRedeemer).toString()} />
+          }
+          {this.state.error &&
+            <div className="alert alert-warning" role="alert">
+              <h4 className="alert-heading">Attention needed</h4>
+              <p className="mb-0">{this.state.error}</p>
+            </div>
+          }
           <Faq />
         </div>
         <Footer />

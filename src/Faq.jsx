@@ -4,7 +4,6 @@ export default () => {
   return (
     <div className="row">
       <div className="col-md-12">
-        <br />
         <p className="text-center h1">
           FAQ
         </p>
