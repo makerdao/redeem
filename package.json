@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "react": "^16.0.0",
+    "react-animated-number": "^0.4.3",
     "react-dom": "^16.0.0",
     "react-scripts": "1.0.14",
     "web3": "^0.20.2"

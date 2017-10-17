@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimatedNumber from 'react-animated-number';
 
 export default (props) => {
   const formatter = new Intl.NumberFormat('en-US');
@@ -13,19 +14,23 @@ export default (props) => {
             <tr>
               <td>Total Supply</td>
               <td className="text-right">
-                <strong>{formatter.format(props.supply)} MKR</strong>
+                <strong><AnimatedNumber value={props.supply} formatValue={x => formatter.format(x)} /> MKR</strong>
               </td>
             </tr>
             <tr>
-              <td>Redeemed</td>
+              <td>
+                Redeemed (<strong><AnimatedNumber value={(props.supply - props.available) / props.supply * 100} formatValue={x => formatter.format(x)} /> %</strong>)
+              </td>
               <td className="text-right">
-                <strong>{formatter.format(props.supply - props.available)} MKR</strong>
+                <strong>
+                  <AnimatedNumber value={props.supply - props.available} formatValue={x => formatter.format(x)} /> MKR
+                  </strong>
               </td>
             </tr>
             <tr>
               <td>Remaining</td>
               <td className="text-right">
-                <strong>{formatter.format(props.available)} MKR</strong>
+                <strong><AnimatedNumber value={props.available} formatValue={x => formatter.format(x)} /> MKR</strong>
               </td>
             </tr>
           </tbody>

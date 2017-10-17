@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import AnimatedNumber from 'react-animated-number';
 import './App.css';
 import Faq from './Faq';
 import Stats from './Stats';
@@ -16,6 +17,7 @@ class App extends Component {
     error: null,
     network: null,
     deadline: null,
+    mkrBalanceRedeemer: new BigNumber(0),
     mkrBalance: new BigNumber(0),
     oldMkrBalance: new BigNumber(0),
     mkrAllowance: new BigNumber(0),
@@ -193,12 +195,12 @@ class App extends Component {
                   <h3>Old MKR</h3>
                   <p>
                     Your balance:
-                        </p>
+                  </p>
                   <p className="h1">
-                    {web3 && web3.fromWei(this.state.oldMkrBalance).toString()}
+                    <AnimatedNumber value={web3 && web3.fromWei(this.state.oldMkrBalance).toNumber()} />
                   </p>
                   {this.state.oldMkrBalance.gt(0) &&
-                    this.state.oldMkrBalance.gte(this.state.oldMkrAllowance) &&
+                    !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
                     <form onSubmit={this.approve}>
                       <h4>Step 1</h4>
                       <button type="input" className="btn btn-primary">Approve</button>
@@ -226,7 +228,7 @@ class App extends Component {
                     Your balance:
                   </p>
                   <p className="h1">
-                    {web3 && web3.fromWei(this.state.mkrBalance).toString()}
+                    <AnimatedNumber value={web3 && web3.fromWei(this.state.mkrBalance).toNumber()} />
                   </p>
                   {this.state.mkrBalance.gt(0) &&
                     !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
@@ -259,7 +261,7 @@ class App extends Component {
                   }
                 </div>
               </div>
-              <Stats supply={1000000} available={web3.fromWei(this.state.mkrBalanceRedeemer).toString()} />
+              <Stats supply={1000000} available={web3.fromWei(this.state.mkrBalanceRedeemer).toNumber()} />
             </div>
           }
           {this.state.error &&
