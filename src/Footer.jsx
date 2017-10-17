@@ -6,6 +6,7 @@ export default () => {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
+            <p className="h4">Contact Us</p>
             <p>&copy; 2017 - Maker</p>
           </div>
         </div>

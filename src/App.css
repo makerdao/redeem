@@ -8,6 +8,12 @@ body {
   color: #ff9800;
 }
 
+.title {
+  margin-top: 15px;
+  font-size: 4.2rem;
+  font-weight: 100;
+}
+
 .card {
   color: #333;
 }

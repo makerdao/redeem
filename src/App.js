@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Faq from './Faq';
+import Stats from './Stats';
 import Footer from './Footer';
 import web3, { initWeb3 } from './web3';
 import BigNumber from 'bignumber.js'
@@ -57,12 +58,12 @@ class App extends Component {
                 account: x[0]
               });
               this.getDeadline();
-              old_mkr.allEvents({fromBlock:'latest'}, console.log)
-              mkr.allEvents({fromBlock:'latest'}, console.log)
+              old_mkr.allEvents({ fromBlock: 'latest' }, console.log)
+              mkr.allEvents({ fromBlock: 'latest' }, console.log)
               this.checkAll();
               setInterval(this.checkAll, 5000);
             } else {
-              this.setState( {
+              this.setState({
                 error: 'No account found. Do you need to unlock Metamask?'
               });
             }
@@ -79,11 +80,13 @@ class App extends Component {
   }
 
   checkAll = async () => {
+    const mkrBalanceRedeemer = await this.getBalance(this.mkr, this.redeemer.address);
     const mkrBalance = await this.getBalance(this.mkr, this.state.account);
     const oldMkrBalance = await this.getBalance(this.old_mkr, this.state.account);
     const mkrAllowance = await this.getAllowance(this.mkr, this.state.account);
     const oldMkrAllowance = await this.getAllowance(this.old_mkr, this.state.account);
     this.setState({
+      mkrBalanceRedeemer,
       mkrBalance,
       oldMkrBalance,
       mkrAllowance,
@@ -144,26 +147,12 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.error) {
-      return (
-        <div className="container">
-          <div className="row">
-            <div className="col-sm-12">
-              <h1 className="text-center">Redeem New MKR</h1>
-              <p>
-                {this.state.error}
-              </p>
-            </div>
-          </div>
-        </div>
-      )
-    }
     return (
       <div>
         <div className="container">
           <div className="row">
             <div className="col-sm-12">
-              <h1 className="text-center">
+              <h1 className="text-center title">
                 Redeem New MKR
               </h1>
               <p>
@@ -182,8 +171,12 @@ class App extends Component {
                   Your account: <strong>{this.state.account}</strong>
                 </p>
               }
+              <p>
+                <a href={`https://kovan.etherscan.io/address/${this.redeemer_address}`} target="_blank">Redeemer contract on Etherscan</a>
+              </p>
             </div>
             <div className="col-md-12">
+              {this.state.network &&
               <div className="card-deck">
                 <div className="card text-center">
                   <div className="card-body">
@@ -248,8 +241,13 @@ class App extends Component {
                   </div> */}
                 </div>
               </div>
+              }
+              {this.state.error &&
+                <p>{this.state.error}</p>
+              }
             </div>
           </div>
+          <Stats supply={1000000} available={web3.fromWei(this.state.mkrBalanceRedeemer).toString()} />
           <Faq />
         </div>
         <Footer />
