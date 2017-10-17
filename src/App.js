@@ -3,6 +3,7 @@ import AnimatedNumber from 'react-animated-number';
 import './App.css';
 import Faq from './Faq';
 import Stats from './Stats';
+import Seth from './Seth';
 import Footer from './Footer';
 import web3, { initWeb3 } from './web3';
 import BigNumber from 'bignumber.js'
@@ -68,12 +69,12 @@ class App extends Component {
               this.getDeadline();
               //old_mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
               //mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
-              //setInterval(this.checkAll, 5000);
               this.checkAll();
-              web3.eth.filter('latest', (error, hash) => {
-                //console.log(hash);
-                this.checkAll();
-              });
+              setInterval(this.checkAll, 5000);
+              // web3.eth.filter('latest', (error, hash) => {
+              //   //console.log(hash);
+              //   this.checkAll();
+              // });
             } else {
               this.setState({
                 error: 'No account found. Do you need to unlock Metamask?'
