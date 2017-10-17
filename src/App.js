@@ -64,10 +64,14 @@ class App extends Component {
                 account: x[0]
               });
               this.getDeadline();
-              old_mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
-              mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
-              this.checkAll();
+              //old_mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
+              //mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
               //setInterval(this.checkAll, 5000);
+              this.checkAll();
+              web3.eth.filter('latest', (error, hash) => {
+                //console.log(hash);
+                this.checkAll();
+              });
             } else {
               this.setState({
                 error: 'No account found. Do you need to unlock Metamask?'
@@ -86,7 +90,6 @@ class App extends Component {
   }
 
   checkAll = async () => {
-    console.log('check all');
     const mkrBalanceRedeemer = await this.getBalance(this.mkr, this.redeemer.address);
     const mkrBalance = await this.getBalance(this.mkr, this.state.account);
     const oldMkrBalance = await this.getBalance(this.old_mkr, this.state.account);
@@ -195,13 +198,13 @@ class App extends Component {
                     {web3 && web3.fromWei(this.state.oldMkrBalance).toString()}
                   </p>
                   {this.state.oldMkrBalance.gt(0) &&
-                    !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
+                    this.state.oldMkrBalance.gte(this.state.oldMkrAllowance) &&
                     <form onSubmit={this.approve}>
                       <h4>Step 1</h4>
                       <button type="input" className="btn btn-primary">Approve</button>
                       <p>
                         This transaction will approve the Redeemer to exchange your tokens.
-                          </p>
+                      </p>
                     </form>
                   }
                   {this.state.oldMkrAllowance.gt(0) &&
@@ -210,10 +213,10 @@ class App extends Component {
                       <h4>Step 2</h4>
                       <button type="input" className="btn btn-primary">
                         Redeem {web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
-                          </button>
+                      </button>
                       <p>
                         This transaction will remove your old MKR balance and replace it with new MKR tokens.
-                          </p>
+                      </p>
                     </form>
                   }
                 </div>
@@ -232,12 +235,26 @@ class App extends Component {
                       <p>
                         You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
                       </p>
+                      <h4>Step 1</h4>
                       <button type="input" className="btn btn-primary">Approve Revert</button>
+                      <p>
+                        This transaction will approve the Redeemer to exchange your tokens.
+                      </p>
                     </form>
                   }
                   {this.state.mkrAllowance.gt(0) &&
+                    web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
                     <form onSubmit={this.undo}>
-                      <button type="input" className="btn btn-primary">Undo</button>
+                      <p>
+                        You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
+                      </p>
+                      <h4>Step 2</h4>
+                      <button type="input" className="btn btn-primary">
+                        Revert {web3.fromWei(this.state.mkrAllowance).toString()} MKR
+                      </button>
+                      <p>
+                        This transaction will remove your new MKR balance and replace it with old MKR tokens.
+                      </p>
                     </form>
                   }
                 </div>
