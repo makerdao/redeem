@@ -26,9 +26,20 @@ class App extends Component {
     oldMkrAllowance: new BigNumber(0)
   }
 
-  old_mkr_address = '0x4bb514a7f83fbb13c2b41448208e89fabbcfe2fb';
-  mkr_address = '0x4572baca0e43504234f86380fcdd38fbf81c7888';
-  redeemer_address = '0x2c0f31271673cc29927be725104642aad65a253e';
+  config = {
+    kovan: {
+      old_mkr_address: '0x4bb514a7f83fbb13c2b41448208e89fabbcfe2fb',
+      mkr_address: '0x4572baca0e43504234f86380fcdd38fbf81c7888',
+      redeemer_address: '0x2c0f31271673cc29927be725104642aad65a253e'
+    },
+    mainnet: {
+      old_mkr_address: '0xc66ea802717bfb9833400264dd12c2bceaa34a6d',
+      mkr_address: '0xd61eaa2d5d7f9a92060d596a49c03be162e760a8',
+      redeemer_address: '0xf7c928a19c5128076deb5f12db92dacf7e5c04bd'
+    }
+  }
+
+  url = null;
 
   old_mkr = null;
   redeemer = null;
@@ -43,12 +54,21 @@ class App extends Component {
           });
           return;
         }
-        if (network !== "42") {
-          // Only works in kovan
-          this.setState({
-            error: `This is a test page that currently only works with the Kovan network. Please connect to Kovan and refresh this page.`
-          });
-          return;
+        if (network === "1") {
+          this.old_mkr_address = this.config.mainnet.old_mkr_address;
+          this.mkr_address = this.config.mainnet.mkr_address;
+          this.redeemer_address = this.config.mainnet.redeemer_address;
+          this.url = "etherscan.io";
+        } else if (network === "42") {
+          this.old_mkr_address = this.config.kovan.old_mkr_address;
+          this.mkr_address = this.config.kovan.mkr_address;
+          this.redeemer_address = this.config.kovan.redeemer_address;
+          this.url = "kovan.etherscan.io";
+        } else {
+            this.setState({
+              error: `Please connect to mainnet or Kovan network for testing and refresh this page.`
+            });
+            return;
         }
         const old_mkr = web3.eth.contract(dstoken_abi).at(this.old_mkr_address);
         const mkr = web3.eth.contract(dstoken_abi).at(this.mkr_address);
@@ -179,7 +199,7 @@ class App extends Component {
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
               </p>
               <p>
-                <a href={`https://kovan.etherscan.io/address/${this.redeemer_address}`} target="_blank">Redeemer contract on Etherscan</a>
+                <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank">Redeemer contract on Etherscan</a>
               </p>
             </div>
           </div>
