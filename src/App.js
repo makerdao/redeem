@@ -32,10 +32,15 @@ class App extends Component {
       mkr_address: '0x4572baca0e43504234f86380fcdd38fbf81c7888',
       redeemer_address: '0x2c0f31271673cc29927be725104642aad65a253e'
     },
+    rinkeby: {
+      old_mkr_address: '0xa2f6ee81945259b1e38149efeb8931c08a61e4f9',
+      mkr_address: '0x62cf16573cd5613c415663265d51f775865d4dc5',
+      redeemer_address: '0x2b7E91584A2EaC119E5c8A4dEb5b885f1b5763dD'
+    },
     mainnet: {
       old_mkr_address: '0xc66ea802717bfb9833400264dd12c2bceaa34a6d',
-      mkr_address: '0xd61eaa2d5d7f9a92060d596a49c03be162e760a8',
-      redeemer_address: '0xf7c928a19c5128076deb5f12db92dacf7e5c04bd'
+      mkr_address: '0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2',
+      redeemer_address: '0x642ae78fafbb8032da552d619ad43f1d81e4dd7c'
     }
   }
 
@@ -59,6 +64,11 @@ class App extends Component {
           this.mkr_address = this.config.mainnet.mkr_address;
           this.redeemer_address = this.config.mainnet.redeemer_address;
           this.url = "etherscan.io";
+        } else if (network === "4") {
+          this.old_mkr_address = this.config.rinkeby.old_mkr_address;
+          this.mkr_address = this.config.rinkeby.mkr_address;
+          this.redeemer_address = this.config.rinkeby.redeemer_address;
+          this.url = "rinkeby.etherscan.io";
         } else if (network === "42") {
           this.old_mkr_address = this.config.kovan.old_mkr_address;
           this.mkr_address = this.config.kovan.mkr_address;

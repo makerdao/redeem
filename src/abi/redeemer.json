@@ -1,5 +1,14 @@
 [
   {
+    "constant": false,
+    "inputs": [],
+    "name": "stop",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "to",
@@ -28,6 +37,20 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "stopped",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -36,6 +59,15 @@
       }
     ],
     "name": "setAuthority",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "reclaim",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -82,6 +114,15 @@
     "constant": false,
     "inputs": [],
     "name": "redeem",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "start",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -135,6 +176,30 @@
     "type": "constructor"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "authority",
+        "type": "address"
+      }
+    ],
+    "name": "LogSetAuthority",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "LogSetOwner",
+    "type": "event"
+  },
+  {
     "anonymous": true,
     "inputs": [
       {
@@ -169,30 +234,6 @@
       }
     ],
     "name": "LogNote",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "authority",
-        "type": "address"
-      }
-    ],
-    "name": "LogSetAuthority",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "owner",
-        "type": "address"
-      }
-    ],
-    "name": "LogSetOwner",
     "type": "event"
   }
 ]
