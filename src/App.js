@@ -164,28 +164,28 @@ class App extends Component {
 
   approve = (e) => {
     e.preventDefault();
-    this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, (e, r) => {
+    this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, { gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
       console.log(r);
     })
   }
 
   approve_undo = (e) => {
     e.preventDefault();
-    this.mkr.approve(this.redeemer_address, this.state.mkrBalance, (e, r) => {
+    this.mkr.approve(this.redeemer_address, this.state.mkrBalance, { gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
       console.log(r);
     })
   }
 
   redeem = (e) => {
     e.preventDefault();
-    this.redeemer.redeem((e, r) => {
+    this.redeemer.redeem({ gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
       console.log(r);
     })
   }
 
   undo = (e) => {
     e.preventDefault();
-    this.redeemer.undo((e, r) => {
+    this.redeemer.undo({ gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
       console.log(r);
     })
   }
@@ -203,13 +203,13 @@ class App extends Component {
                 Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
               </p>
               <p>
-                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token">ds-token</a> object which can be configured to enable protected operations (e.g. <kbd>burn</kbd>ing MKR tokens) by future SAI and DAI iterations. <a href="https://github.com/dapphub/ds-token">ds-token</a> is an ERC20 implementation and extension which has just undergone a bytecode-level verification process by Trail of Bits.
+                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token" target="_blank" rel="noopener noreferrer">ds-token</a> object which can be configured to enable protected operations (e.g. burning MKR tokens) by future SAI and DAI iterations.
               </p>
               <p>
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
               </p>
               <p>
-                <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank">Redeemer contract on Etherscan</a>
+                <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank" rel="noopener noreferrer">Redeemer contract on Etherscan</a>
               </p>
             </div>
           </div>

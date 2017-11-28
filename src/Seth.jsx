@@ -8,7 +8,7 @@ export default (props) => {
           Can I do this process manually?
         </h5>
         <p>
-          Of course! You can use <a href="https://github.com/dapphub/seth">seth</a> to redeem your MKR tokens from the comfort of your command line.
+          Of course! You can use <a href="https://dapp.tools/seth/" target="_blank" rel="noopener noreferrer">seth</a> to redeem your MKR tokens from the comfort of your command line.
         </p>
 <pre className="seth-code rounded pl-3"><code>
 {`
