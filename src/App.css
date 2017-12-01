@@ -1,11 +1,12 @@
 body {
   font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  color: #fff;
-  background: radial-gradient(#213654,#242729);
+  color: #727272;
+  background: #fff;
 }
 
 .h1, h1, h5 {
-  color: #ff9800;
+  color: #121212;
+  font-family: Roboto;
 }
 
 .title {
@@ -25,6 +26,6 @@ body {
 
 footer {
   padding-top: 10px;
-  background-color: #ddd;
-  color: #333;
+  background-color: #0B141F;
+  color: #fff;
 }

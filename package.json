@@ -2,11 +2,13 @@
   "name": "redeem",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://makerdao.com/redeem",
   "dependencies": {
-    "react": "^16.0.0",
+    "gh-pages": "^1.1.0",
+    "react": "^16.2.0",
     "react-animated-number": "^0.4.3",
-    "react-dom": "^16.0.0",
-    "react-scripts": "1.0.14",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17",
     "web3": "^0.20.2"
   },
   "scripts": {
@@ -15,6 +17,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "presurge": "npm run build",
-    "surge": "cd build && surge --domain https://redeem-mkr.surge.sh"
+    "surge": "cd build && surge --domain https://redeem-mkr.surge.sh",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   }
 }

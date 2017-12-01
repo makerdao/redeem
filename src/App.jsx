@@ -5,6 +5,7 @@ import Faq from './Faq';
 import Stats from './Stats';
 import Seth from './Seth';
 import Footer from './Footer';
+import Transaction from './Transaction';
 import web3, { initWeb3 } from './web3';
 import BigNumber from 'bignumber.js'
 
@@ -19,6 +20,7 @@ class App extends Component {
     error: null,
     network: null,
     deadline: null,
+    currentTx: null,
     mkrBalanceRedeemer: new BigNumber(0),
     mkrBalance: new BigNumber(0),
     oldMkrBalance: new BigNumber(0),
@@ -123,7 +125,26 @@ class App extends Component {
     })
   }
 
+  checkTransaction = (tx) => {
+    return new Promise((resolve, reject) => {
+      web3.eth.getTransactionReceipt(tx, (error, result) => {
+        if (error) {
+          reject(error);
+        } else {
+          result ? resolve(result.status) : resolve(null);
+        }
+      })
+    });
+  }
+
   checkAll = async () => {
+    let currentTx = this.state.currentTx;
+    if (currentTx) {
+      const status = await this.checkTransaction(currentTx);
+      if (status === '0x1') {
+        currentTx = null;
+      }
+    }
     const mkrBalanceRedeemer = await this.getBalance(this.mkr, this.redeemer.address);
     const mkrBalance = await this.getBalance(this.mkr, this.state.account);
     const oldMkrBalance = await this.getBalance(this.old_mkr, this.state.account);
@@ -134,7 +155,8 @@ class App extends Component {
       mkrBalance,
       oldMkrBalance,
       mkrAllowance,
-      oldMkrAllowance
+      oldMkrAllowance,
+      currentTx
     });
   }
 
@@ -165,28 +187,44 @@ class App extends Component {
   approve = (e) => {
     e.preventDefault();
     this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, { gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
-      console.log(r);
+      if (!e) {
+        this.setState({
+          currentTx: r
+        })
+      }
     })
   }
 
   approve_undo = (e) => {
     e.preventDefault();
     this.mkr.approve(this.redeemer_address, this.state.mkrBalance, { gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
-      console.log(r);
+      if (!e) {
+        this.setState({
+          currentTx: r
+        })
+      }
     })
   }
 
   redeem = (e) => {
     e.preventDefault();
     this.redeemer.redeem({ gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
-      console.log(r);
+      if (!e) {
+        this.setState({
+          currentTx: r
+        })
+      }
     })
   }
 
   undo = (e) => {
     e.preventDefault();
     this.redeemer.undo({ gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
-      console.log(r);
+      if (!e) {
+        this.setState({
+          currentTx: r
+        })
+      }
     })
   }
 
@@ -233,6 +271,7 @@ class App extends Component {
                   </p>
                   {this.state.oldMkrBalance.gt(0) &&
                     !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
+                    !this.state.currentTx &&
                     <form onSubmit={this.approve}>
                       <h4>Step 1</h4>
                       <button type="input" className="btn btn-primary">Approve</button>
@@ -243,6 +282,7 @@ class App extends Component {
                   }
                   {this.state.oldMkrAllowance.gt(0) &&
                     this.state.oldMkrAllowance.eq(this.state.oldMkrBalance) &&
+                    !this.state.currentTx &&
                     <form onSubmit={this.redeem}>
                       <h4>Step 2</h4>
                       <button type="input" className="btn btn-primary">
@@ -264,6 +304,7 @@ class App extends Component {
                   </p>
                   {this.state.mkrBalance.gt(0) &&
                     !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
+                    !this.state.currentTx &&
                     web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
                     <form onSubmit={this.approve_undo}>
                       <p>
@@ -277,6 +318,7 @@ class App extends Component {
                     </form>
                   }
                   {this.state.mkrAllowance.gt(0) &&
+                    !this.state.currentTx &&
                     web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
                     <form onSubmit={this.undo}>
                       <p>
@@ -293,6 +335,7 @@ class App extends Component {
                   }
                 </div>
               </div>
+              <Transaction currentTx={this.state.currentTx} url={this.url} />
               <Stats supply={1000000} available={web3.fromWei(this.state.mkrBalanceRedeemer).toNumber()} />
             </div>
           }

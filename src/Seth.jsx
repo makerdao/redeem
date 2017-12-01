@@ -12,7 +12,7 @@ export default (props) => {
         </p>
 <pre className="seth-code rounded pl-3"><code>
 {`
-export ETH_GAS=150000 # gas to send per transaction
+export ETH_GAS=200000 # gas to send per transaction
 export ETH_GAS_PRICE=$(seth --to-wei 1 gwei) # price per gas unit
 export ETH_FROM=${props.account || `[YOUR ACCOUNT]`} # your account
 export REDEEMER=${props.redeemer} # redeemer contract
