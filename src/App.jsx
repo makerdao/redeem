@@ -186,7 +186,7 @@ class App extends Component {
 
   approve = (e) => {
     e.preventDefault();
-    this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, { gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
+    this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, { gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -197,7 +197,7 @@ class App extends Component {
 
   approve_undo = (e) => {
     e.preventDefault();
-    this.mkr.approve(this.redeemer_address, this.state.mkrBalance, { gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
+    this.mkr.approve(this.redeemer_address, this.state.mkrBalance, { gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -208,7 +208,7 @@ class App extends Component {
 
   redeem = (e) => {
     e.preventDefault();
-    this.redeemer.redeem({ gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
+    this.redeemer.redeem({ gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -219,7 +219,7 @@ class App extends Component {
 
   undo = (e) => {
     e.preventDefault();
-    this.redeemer.undo({ gasPrice: web3.toWei(1, 'gwei')}, (e, r) => {
+    this.redeemer.undo({ gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -262,19 +262,17 @@ class App extends Component {
                   }
                 </div>
                 <div className="col-md-6 text-center">
-                  <h3>Old MKR</h3>
                   <p>
                     Your balance:
                   </p>
                   <p className="h1">
-                    <AnimatedNumber value={web3 && web3.fromWei(this.state.oldMkrBalance).toNumber()} />
+                    <AnimatedNumber value={web3 && web3.fromWei(this.state.oldMkrBalance).toNumber()} /> old MKR
                   </p>
                   {this.state.oldMkrBalance.gt(0) &&
                     !this.state.oldMkrBalance.eq(this.state.oldMkrAllowance) &&
                     !this.state.currentTx &&
                     <form onSubmit={this.approve}>
-                      <h4>Step 1</h4>
-                      <button type="input" className="btn btn-primary">Approve</button>
+                      <button type="input" className="btn btn-primary">Step 1 - Approve</button>
                       <p>
                         This transaction will approve the Redeemer to exchange your tokens.
                       </p>
@@ -284,9 +282,8 @@ class App extends Component {
                     this.state.oldMkrAllowance.eq(this.state.oldMkrBalance) &&
                     !this.state.currentTx &&
                     <form onSubmit={this.redeem}>
-                      <h4>Step 2</h4>
                       <button type="input" className="btn btn-primary">
-                        Redeem {web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
+                        Step 2 - Redeem {web3.fromWei(this.state.oldMkrAllowance).toString()} MKR
                       </button>
                       <p>
                         This transaction will remove your old MKR balance and replace it with new MKR tokens.
@@ -295,12 +292,11 @@ class App extends Component {
                   }
                 </div>
                 <div className="col-md-6 text-center">
-                  <h3>MKR</h3>
                   <p>
                     Your balance:
                   </p>
                   <p className="h1">
-                    <AnimatedNumber value={web3 && web3.fromWei(this.state.mkrBalance).toNumber()} />
+                    <AnimatedNumber value={web3 && web3.fromWei(this.state.mkrBalance).toNumber()} /> MKR
                   </p>
                   {this.state.mkrBalance.gt(0) &&
                     !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
@@ -310,8 +306,7 @@ class App extends Component {
                       <p>
                         You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
                       </p>
-                      <h4>Step 1</h4>
-                      <button type="input" className="btn btn-primary">Approve Revert</button>
+                      <button type="input" className="btn btn-primary">Step 1 - Approve Revert</button>
                       <p>
                         This transaction will approve the Redeemer to exchange your tokens.
                       </p>
@@ -324,9 +319,8 @@ class App extends Component {
                       <p>
                         You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
                       </p>
-                      <h4>Step 2</h4>
                       <button type="input" className="btn btn-primary">
-                        Revert {web3.fromWei(this.state.mkrAllowance).toString()} MKR
+                        Step 2 - Revert {web3.fromWei(this.state.mkrAllowance).toString()} MKR
                       </button>
                       <p>
                         This transaction will remove your new MKR balance and replace it with old MKR tokens.
