@@ -8,22 +8,10 @@ export default () => {
           FAQ
         </p>
         <h5>
-          Why are you doing this?
-        </h5>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
-        </p>
-        <h5>
-          What will happen to the old MKR tokens?
-        </h5>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
-        </p>
-        <h5>
           Can I see the source code?
         </h5>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias minima dignissimos et ducimus, sequi minus nisi nulla natus ipsa in voluptatem. Possimus dolorum recusandae sint ratione esse fugiat culpa! Magni!
+          Yes! This dapp is hosted on GitHub Pages and the source code can be found at <a href="https://github.com/makerdao/redeem" target="_blank" rel="noopener noreferrer">https://github.com/makerdao/redeem</a>
         </p>
       </div>
     </div>

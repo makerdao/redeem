@@ -246,9 +246,11 @@ class App extends Component {
               <p>
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
               </p>
-              <p>
-                <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank" rel="noopener noreferrer">Redeemer contract on Etherscan</a>
-              </p>
+              {this.url &&
+                <p>
+                  <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank" rel="noopener noreferrer">Redeemer contract on Etherscan</a>
+                </p>
+              }
             </div>
           </div>
           {this.state.network &&
