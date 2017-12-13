@@ -186,7 +186,7 @@ class App extends Component {
 
   approve = (e) => {
     e.preventDefault();
-    this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, { gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
+    this.old_mkr.approve(this.redeemer_address, this.state.oldMkrBalance, (e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -197,7 +197,7 @@ class App extends Component {
 
   approve_undo = (e) => {
     e.preventDefault();
-    this.mkr.approve(this.redeemer_address, this.state.mkrBalance, { gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
+    this.mkr.approve(this.redeemer_address, this.state.mkrBalance, (e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -208,7 +208,7 @@ class App extends Component {
 
   redeem = (e) => {
     e.preventDefault();
-    this.redeemer.redeem({ gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
+    this.redeemer.redeem((e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -219,7 +219,7 @@ class App extends Component {
 
   undo = (e) => {
     e.preventDefault();
-    this.redeemer.undo({ gasPrice: web3.toWei(4, 'gwei')}, (e, r) => {
+    this.redeemer.undo((e, r) => {
       if (!e) {
         this.setState({
           currentTx: r
@@ -241,7 +241,7 @@ class App extends Component {
                 Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
               </p>
               <p>
-                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token" target="_blank" rel="noopener noreferrer">ds-token</a> object which can be configured to enable protected operations (e.g. burning MKR tokens) by future SAI and DAI iterations.
+                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token" target="_blank" rel="noopener noreferrer">ds-token</a> object which can be configured to enable protected operations (e.g. burning MKR tokens) by future Dai iterations.
               </p>
               <p>
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
