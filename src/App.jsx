@@ -57,7 +57,7 @@ class App extends Component {
       web3.version.getNetwork((error, network) => {
         if (error) {
           this.setState({
-            error: `You don't seem to be connected to the Ethereum network. Please use Metamask, Parity extension/browser or Mist.`
+            error: `You don't seem to be connected to the Ethereum network. Please install Metamask and send MKR to the Metamask account to make the Redeem buttons available.`
           });
           return;
         }
@@ -262,6 +262,14 @@ class App extends Component {
                       Your account: <strong>{this.state.account}</strong>
                     </p>
                   }
+                </div>
+                <div className="col-md-12">
+                  <div className="alert alert-danger" role="alert">
+                    <h4 className="alert-heading">Warning!</h4>
+                    <p className="mb-0">
+                      DO NOT send tokens directly to the contract. Use the Redeemer buttons below or (for advanced users) the command line interface instructions below.
+                    </p>
+                  </div>
                 </div>
                 <div className="col-md-6 text-center">
                   <p>
