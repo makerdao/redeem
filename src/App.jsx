@@ -246,6 +246,9 @@ class App extends Component {
               <p>
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
               </p>
+              <p>
+                <strong>DO NOT send tokens directly to the contract.</strong> Use the Redeemer buttons below or (for advanced users) the command line interface instructions below.
+              </p>
               {this.url &&
                 <p>
                   <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank" rel="noopener noreferrer">Redeemer contract on Etherscan</a>
