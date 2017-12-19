@@ -244,7 +244,7 @@ class App extends Component {
                 The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token" target="_blank" rel="noopener noreferrer">ds-token</a> object which can be configured to enable protected operations (e.g. burning MKR tokens) by future Dai iterations.
               </p>
               <p>
-                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after the set deadline.
+                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after February 28, 2018 at midnight UTC.
               </p>
               <p>
                 <strong>DO NOT send tokens directly to the contract.</strong> Use the Redeemer buttons below or (for advanced users) the command line interface instructions below.
