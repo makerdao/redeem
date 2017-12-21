@@ -254,18 +254,14 @@ class App extends Component {
                   <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank" rel="noopener noreferrer">Redeemer contract on Etherscan</a>
                 </p>
               }
+              <h3>
+                New MKR address: 0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2
+              </h3>
             </div>
           </div>
           {this.state.network &&
             <div>
               <div className="row">
-                <div className="col-md-12">
-                  {this.state.account &&
-                    <p>
-                      Your account: <strong>{this.state.account}</strong>
-                    </p>
-                  }
-                </div>
                 <div className="col-md-12">
                   <div className="alert alert-danger" role="alert">
                     <h4 className="alert-heading">Warning!</h4>
@@ -273,6 +269,13 @@ class App extends Component {
                       DO NOT send tokens directly to the contract. Use the Redeemer buttons below or (for advanced users) the command line interface instructions below.
                     </p>
                   </div>
+                </div>
+                <div className="col-md-12">
+                  {this.state.account &&
+                    <p>
+                      Your account: <strong>{this.state.account}</strong>
+                    </p>
+                  }
                 </div>
                 <div className="col-md-6 text-center">
                   <p>
@@ -311,35 +314,6 @@ class App extends Component {
                   <p className="h1">
                     <AnimatedNumber value={web3 && web3.fromWei(this.state.mkrBalance).toNumber()} /> MKR
                   </p>
-                  {this.state.mkrBalance.gt(0) &&
-                    !this.state.mkrBalance.eq(this.state.mkrAllowance) &&
-                    !this.state.currentTx &&
-                    web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
-                    <form onSubmit={this.approve_undo}>
-                      <p>
-                        You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
-                      </p>
-                      <button type="input" className="btn btn-primary">Step 1 - Approve Revert</button>
-                      <p>
-                        This transaction will approve the Redeemer to exchange your tokens.
-                      </p>
-                    </form>
-                  }
-                  {this.state.mkrAllowance.gt(0) &&
-                    !this.state.currentTx &&
-                    web3.toDecimal(this.state.deadline) > (Date.now() / 1000) &&
-                    <form onSubmit={this.undo}>
-                      <p>
-                        You can revert to your old MKR tokens before {new Date(web3.toDecimal(this.state.deadline) * 1000).toString()}.
-                      </p>
-                      <button type="input" className="btn btn-primary">
-                        Step 2 - Revert {web3.fromWei(this.state.mkrAllowance).toString()} MKR
-                      </button>
-                      <p>
-                        This transaction will remove your new MKR balance and replace it with old MKR tokens.
-                      </p>
-                    </form>
-                  }
                 </div>
               </div>
               <Transaction currentTx={this.state.currentTx} url={this.url} />
