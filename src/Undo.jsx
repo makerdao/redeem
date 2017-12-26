@@ -20,7 +20,7 @@ const Undo = (props) => {
           props.allowance.gte(props.balance) &&
           !props.currentTx &&
           <p>
-            Step 1 done! <a href="#approve" onClick={props.undo}>Click here</a> to finish the process. You will get back old MKR in exchange for new MKR.
+            Step 1 done! <a href="#undo" onClick={props.undo}>Click here</a> to finish the process. You will get back old MKR in exchange for new MKR.
           </p>
         }
         {props.currentTx &&
