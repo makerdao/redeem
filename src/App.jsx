@@ -6,8 +6,8 @@ import Stats from './Stats';
 import Seth from './Seth';
 import Footer from './Footer';
 import Transaction from './Transaction';
+import Undo from './Undo';
 import web3, { initWeb3 } from './web3';
-import BigNumber from 'bignumber.js'
 
 const dstoken_abi = require('./abi/dstoken.json');
 const redeemer_abi = require('./abi/redeemer.json');
@@ -21,11 +21,11 @@ class App extends Component {
     network: null,
     deadline: null,
     currentTx: null,
-    mkrBalanceRedeemer: new BigNumber(0),
-    mkrBalance: new BigNumber(0),
-    oldMkrBalance: new BigNumber(0),
-    mkrAllowance: new BigNumber(0),
-    oldMkrAllowance: new BigNumber(0)
+    mkrBalanceRedeemer: new web3.BigNumber(0),
+    mkrBalance: new web3.BigNumber(0),
+    oldMkrBalance: new web3.BigNumber(0),
+    mkrAllowance: new web3.BigNumber(0),
+    oldMkrAllowance: new web3.BigNumber(0)
   }
 
   config = {
@@ -100,14 +100,8 @@ class App extends Component {
                 account: x[0]
               });
               this.getDeadline();
-              //old_mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
-              //mkr.allEvents({ fromBlock: 'latest' }, this.checkAll);
               this.checkAll();
               setInterval(this.checkAll, 5000);
-              // web3.eth.filter('latest', (error, hash) => {
-              //   //console.log(hash);
-              //   this.checkAll();
-              // });
             } else {
               this.setState({
                 error: 'No account found. Do you need to unlock Metamask?'
@@ -327,6 +321,9 @@ class App extends Component {
             </div>
           }
           <Faq />
+          {this.state.network &&
+            <Undo approve={this.approve_undo} undo={this.undo} allowance={this.state.mkrAllowance} balance={this.state.mkrBalance} currentTx={this.state.currentTx} />
+          }
           <Seth account={this.state.account} redeemer={this.redeemer_address} mkr={this.mkr_address} old_mkr={this.old_mkr_address} />
         </div>
         <Footer />
