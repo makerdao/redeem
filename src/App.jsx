@@ -231,26 +231,15 @@ class App extends Component {
               <h1 className="text-center title">
                 Redeem New MKR
               </h1>
-              <p>
-                Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
-              </p>
-              <p>
-                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token" target="_blank" rel="noopener noreferrer">ds-token</a> object which can be configured to enable protected operations (e.g. burning MKR tokens) by future Dai iterations.
-              </p>
+              <h3>
+                There is no deadline for this upgrade. You can do it any time and you will not be penalized in any way.
+              </h3>
               <p>
                 You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after February 28, 2018 at midnight UTC.
               </p>
               <p>
                 <strong>DO NOT send tokens directly to the contract.</strong> Use the Redeemer buttons below or (for advanced users) the command line interface instructions below.
               </p>
-              {this.url &&
-                <p>
-                  <a href={`https://${this.url}/address/${this.redeemer_address}`} target="_blank" rel="noopener noreferrer">Redeemer contract on Etherscan</a>
-                </p>
-              }
-              <h3>
-                New MKR address: 0x9f8f72aa9304c8b593d555f12ef6589cc3a579a2
-              </h3>
             </div>
           </div>
           {this.state.network &&

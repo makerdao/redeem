@@ -14,6 +14,9 @@ export default () => {
           Please always verify that you are interacting with the correct tokens.
         </p>
         <p>
+          Redeemer: <a href="https://etherscan.io/address/0x642ae78fafbb8032da552d619ad43f1d81e4dd7c" target="_blank" rel="noopener noreferrer">0x642ae78fafbb8032da552d619ad43f1d81e4dd7c</a>
+        </p>
+        <p>
           MKR token: <a href="https://etherscan.io/token/Maker" target="_blank" rel="noopener noreferrer">0x9f8F72aA9304c8B593d555F12eF6589cC3A579A2</a>
         </p>
         <p>
