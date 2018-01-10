@@ -77,10 +77,10 @@ class App extends Component {
           this.redeemer_address = this.config.kovan.redeemer_address;
           this.url = "kovan.etherscan.io";
         } else {
-            this.setState({
-              error: `Please connect to mainnet or Kovan network for testing and refresh this page.`
-            });
-            return;
+          this.setState({
+            error: `Please connect to mainnet or Kovan network for testing and refresh this page.`
+          });
+          return;
         }
         const old_mkr = web3.eth.contract(dstoken_abi).at(this.old_mkr_address);
         const mkr = web3.eth.contract(dstoken_abi).at(this.mkr_address);
@@ -231,6 +231,10 @@ class App extends Component {
               <h1 className="text-center title">
                 Redeem New MKR
               </h1>
+              <p>
+                Although the original MKR token was designed to be upgraded in-place, we have since transitioned to a "box"-oriented architecture where components can be individually verified much more easily, allowing the system as a whole to be analyzed in a manageable way.
+                The new version of the MKR token will be a <a href="https://github.com/dapphub/ds-token" target="_blank" rel="noopener noreferrer">ds-token</a> object which can be configured to enable protected operations (e.g. burning MKR tokens) by future Dai iterations.
+               </p>
               <h3>
                 There is no deadline for this upgrade. You can do it any time and you will not be penalized in any way.
               </h3>
