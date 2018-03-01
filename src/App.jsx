@@ -238,6 +238,9 @@ class App extends Component {
               <h3>
                 There is no deadline for this upgrade. You can do it any time and you will not be penalized in any way.
               </h3>
+              <h3>
+                This process is one way only. If you convert old MKR to new MKR, you won't be able to convert back to old MKR.
+              </h3>
             </div>
           </div>
           {this.state.network &&
