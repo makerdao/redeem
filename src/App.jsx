@@ -238,12 +238,6 @@ class App extends Component {
               <h3>
                 There is no deadline for this upgrade. You can do it any time and you will not be penalized in any way.
               </h3>
-              <p>
-                You can exchange old tokens for new ones at any time. But you will not be able to revert back to old tokens after February 28, 2018 at midnight UTC.
-              </p>
-              <p>
-                <strong>DO NOT send tokens directly to the contract.</strong> Use the Redeemer buttons below or (for advanced users) the command line interface instructions below.
-              </p>
             </div>
           </div>
           {this.state.network &&
