@@ -1,0 +1,19 @@
+language: node_js
+sudo: false
+node_js:
+  - 8
+install:
+  - npm install
+script: PUBLIC_URL=. npm run-script build
+deploy:
+  provider: s3
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
+  bucket: "makerdao.com"
+  acl: public_read
+  local-dir: build
+  upload-dir: redeem
+  skip_cleanup: true
+  cache_control: "max-age=300"
+  on:
+    branch: master
