@@ -52,6 +52,7 @@ class App extends Component {
   redeemer = null;
 
   componentWillMount() {
+    window.ethereum.enable();
     setTimeout(() => {
       initWeb3(web3);
       web3.version.getNetwork((error, network) => {
