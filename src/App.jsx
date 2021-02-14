@@ -52,66 +52,67 @@ class App extends Component {
   redeemer = null;
 
   componentWillMount() {
-    window.ethereum.enable();
-    setTimeout(() => {
-      initWeb3(web3);
-      web3.version.getNetwork((error, network) => {
-        if (error) {
-          this.setState({
-            error: `You don't seem to be connected to the Ethereum network. Please install Metamask and send MKR to the Metamask account to make the Redeem buttons available.`
-          });
-          return;
-        }
-        if (network === "1") {
-          this.old_mkr_address = this.config.mainnet.old_mkr_address;
-          this.mkr_address = this.config.mainnet.mkr_address;
-          this.redeemer_address = this.config.mainnet.redeemer_address;
-          this.url = "etherscan.io";
-        } else if (network === "4") {
-          this.old_mkr_address = this.config.rinkeby.old_mkr_address;
-          this.mkr_address = this.config.rinkeby.mkr_address;
-          this.redeemer_address = this.config.rinkeby.redeemer_address;
-          this.url = "rinkeby.etherscan.io";
-        } else if (network === "42") {
-          this.old_mkr_address = this.config.kovan.old_mkr_address;
-          this.mkr_address = this.config.kovan.mkr_address;
-          this.redeemer_address = this.config.kovan.redeemer_address;
-          this.url = "kovan.etherscan.io";
-        } else {
-          this.setState({
-            error: `Please connect to mainnet or Kovan network for testing and refresh this page.`
-          });
-          return;
-        }
-        const old_mkr = web3.eth.contract(dstoken_abi).at(this.old_mkr_address);
-        const mkr = web3.eth.contract(dstoken_abi).at(this.mkr_address);
-        const redeemer = web3.eth.contract(redeemer_abi).at(this.redeemer_address);
-        window.old_mkr = old_mkr;
-        window.mkr = mkr;
-        window.redeemer = redeemer;
-        this.old_mkr = old_mkr;
-        this.mkr = mkr;
-        this.redeemer = redeemer;
-        web3.eth.getAccounts((error, x) => {
-          if (!error) {
-            if (x.length > 0) {
-              web3.eth.defaultAccount = x[0];
-              this.setState({
-                network,
-                account: x[0]
-              });
-              this.getDeadline();
-              this.checkAll();
-              setInterval(this.checkAll, 5000);
-            } else {
-              this.setState({
-                error: 'No account found. Do you need to unlock Metamask?'
-              });
-            }
+    if (window.ethereum) {
+      setTimeout(() => {
+        initWeb3(web3);
+        web3.version.getNetwork((error, network) => {
+          if (error) {
+            this.setState({
+              error: `You don't seem to be connected to the Ethereum network. Please install Metamask and send MKR to the Metamask account to make the Redeem buttons available.`
+            });
+            return;
           }
+          if (network === "1") {
+            this.old_mkr_address = this.config.mainnet.old_mkr_address;
+            this.mkr_address = this.config.mainnet.mkr_address;
+            this.redeemer_address = this.config.mainnet.redeemer_address;
+            this.url = "etherscan.io";
+          } else if (network === "4") {
+            this.old_mkr_address = this.config.rinkeby.old_mkr_address;
+            this.mkr_address = this.config.rinkeby.mkr_address;
+            this.redeemer_address = this.config.rinkeby.redeemer_address;
+            this.url = "rinkeby.etherscan.io";
+          } else if (network === "42") {
+            this.old_mkr_address = this.config.kovan.old_mkr_address;
+            this.mkr_address = this.config.kovan.mkr_address;
+            this.redeemer_address = this.config.kovan.redeemer_address;
+            this.url = "kovan.etherscan.io";
+          } else {
+            this.setState({
+              error: `Please connect to mainnet or Kovan network for testing and refresh this page.`
+            });
+            return;
+          }
+          const old_mkr = web3.eth.contract(dstoken_abi).at(this.old_mkr_address);
+          const mkr = web3.eth.contract(dstoken_abi).at(this.mkr_address);
+          const redeemer = web3.eth.contract(redeemer_abi).at(this.redeemer_address);
+          window.old_mkr = old_mkr;
+          window.mkr = mkr;
+          window.redeemer = redeemer;
+          this.old_mkr = old_mkr;
+          this.mkr = mkr;
+          this.redeemer = redeemer;
+          web3.eth.getAccounts((error, x) => {
+            if (!error) {
+              if (x.length > 0) {
+                web3.eth.defaultAccount = x[0];
+                this.setState({
+                  network,
+                  account: x[0]
+                });
+                this.getDeadline();
+                this.checkAll();
+                setInterval(this.checkAll, 5000);
+              } else {
+                this.setState({
+                  error: 'No account found. Do you need to unlock Metamask?'
+                });
+              }
+            }
+          });
         });
-      });
-    }, 500);
+      }, 500);
+    };
   }
 
   getDeadline = () => {
