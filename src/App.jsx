@@ -53,6 +53,7 @@ class App extends Component {
 
   componentWillMount() {
     if (window.ethereum) {
+      window.ethereum.enable();
       setTimeout(() => {
         initWeb3(web3);
         web3.version.getNetwork((error, network) => {
@@ -309,7 +310,10 @@ class App extends Component {
           {this.state.error &&
             <div className="alert alert-warning" role="alert">
               <h4 className="alert-heading">Attention needed</h4>
-              <p className="mb-0">{this.state.error}</p>
+              <p className="mb-0">
+                {this.state.error} <b/>
+                If you just authorized Metamask for the first time, please refresh the page.
+              </p>
             </div>
           }
           <Faq />
