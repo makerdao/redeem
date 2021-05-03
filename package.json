@@ -2,7 +2,7 @@
   "name": "redeem",
   "version": "0.1.1",
   "private": true,
-  "homepage": "https://makerdao.com/redeem",
+  "homepage": "https://develop.makerdao.com",
   "dependencies": {
     "gh-pages": "^1.2.0",
     "react": "^16.4.0",
