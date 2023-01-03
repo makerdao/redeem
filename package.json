@@ -8,7 +8,7 @@
     "react": "^16.4.0",
     "react-animated-number": "^0.4.3",
     "react-dom": "^16.4.0",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^5.0.1",
     "web3": "^0.20.6"
   },
   "scripts": {
